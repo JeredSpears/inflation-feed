@@ -22,7 +22,8 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - sqlserver_data:/var/opt/mssql
-      - ./database/init.sql:/init.sql  # Optional: see initialization below
+      - ./database/init.sql:/init.sql
+    mem_limit: 4g
 
   frontend:
     working_dir: /app

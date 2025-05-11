@@ -18,6 +18,7 @@ show_help() {
   print_info "  -b, --backend    Build the backend"
   print_info "  -f, --frontend   Build the frontend"
   print_info "  -d, --database   Reset and initialize the database"
+  print_info "  -s, --stop       Stop all running containers"
 }
 
 build_backend() {
@@ -45,6 +46,10 @@ build_all() {
   build_frontend
 }
 
+stop_all() {
+  print_attempt "Stopping all running containers..."
+  docker-compose down
+}
 
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do
@@ -54,6 +59,7 @@ while [[ "$#" -gt 0 ]]; do
     -b|--backend) build_backend; exit 0 ;;
     -f|--frontend) build_frontend; exit 0 ;;
     -d|--database) reset_database; exit 0 ;;
+    -s|--stop) stop_all; exit 0 ;;
     *) print_warn "Unknown option: $1"; show_help; exit 1 ;;
   esac
   shift
