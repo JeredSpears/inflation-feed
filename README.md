@@ -37,3 +37,10 @@ docker ps
 [https://localhost:3000](https://localhost:3000)
 
 To test the API, you can use Postman @ [https://localhost:5000](https://localhost:5000)
+
+When regularly running the app, you can use the following command to rebuilt the backend for example
+```bash
+./setup.sh --backend
+```
+
+If you want to run the backend locally without docker, use the start button on the solution in Visual Studio.
