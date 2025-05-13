@@ -12,7 +12,7 @@ function App() {
   const [prices, setPrices] = useState<Price[]>([]);
 
   useEffect(() => {
-    fetch("/api/prices")
+    fetch("http://localhost:8080/api/prices")
       .then((response) => response.json())
       .then((data) => setPrices(data))
       .catch((error) => console.error("Error fetching prices:", error));
@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-2xl font-bold mb-4">Prices</h1>
+      <h1 className="text-2xl font-bold mb-40">Prices</h1>
       <ul className="bg-white shadow-md rounded-lg p-4">
         {prices.length > 0 ? (
           prices.map((price) => (
