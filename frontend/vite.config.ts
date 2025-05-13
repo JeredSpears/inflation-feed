@@ -9,16 +9,7 @@ export default defineConfig({
     tailwindcss()
   ],
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://api:8080',
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      },
-    },
     port: 5173,
-    host: "0.0.0.0",
     watch: {
       usePolling: true,
       interval: 100

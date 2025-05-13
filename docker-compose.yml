@@ -1,4 +1,4 @@
-#todo: ie handling initialization for local dev. building the app with the container might still be useful?
+version: "3.8"
 
 services:
   api:
@@ -6,29 +6,29 @@ services:
       context: ./backend/InflationFeed.Api
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "8080:8080"
     environment:
-      - ConnectionStrings__Default=Server=database;Database=InflationDb;User=sa;Password=YourStrong!Passw0rd
+      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=InflationDb;Username=postgres;Password=YourStrongPassword
     depends_on:
       - database
 
   database:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
+    image: postgres:15-alpine
+    container_name: postgres_db
     ports:
-      - "1433:1433"
+      - "5432:5432"
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
-      ACCEPT_EULA: "Y"
+      POSTGRES_DB: InflationDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: YourStrongPassword
     volumes:
-      - sqlserver_data:/var/opt/mssql
-    mem_limit: 4g
+      - pg_data:/var/lib/postgresql/data
 
   frontend:
     working_dir: /app
     image: node:18-alpine
     ports:
-      - "3000:3000"
+      - "5173:5173"
     command: sh -c "npm install && npm run dev"
     volumes:
       - ./frontend:/app
@@ -36,4 +36,4 @@ services:
       - api
 
 volumes:
-  sqlserver_data:
+  pg_data:
