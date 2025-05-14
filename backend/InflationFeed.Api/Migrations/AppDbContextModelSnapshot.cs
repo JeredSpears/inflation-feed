@@ -26,25 +26,30 @@ namespace InflationFeed.Api.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("amount");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date");
 
                     b.Property<string>("Sku")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("sku");
 
                     b.Property<string>("Store")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("store");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Prices");
+                    b.ToTable("prices");
                 });
 #pragma warning restore 612, 618
         }
