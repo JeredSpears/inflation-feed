@@ -10,7 +10,8 @@ services:
     environment:
       - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=InflationDb;Username=postgres;Password=YourStrongPassword
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   database:
     image: postgres:15-alpine
@@ -23,6 +24,11 @@ services:
       POSTGRES_PASSWORD: YourStrongPassword
     volumes:
       - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build:
