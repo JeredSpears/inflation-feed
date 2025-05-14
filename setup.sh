@@ -23,8 +23,8 @@ show_help() {
 
 build_backend() {
   print_attempt "Cleaning and restoring the backend solution..."
-  dotnet clean ./backend/Inflationfeed.Api
-  dotnet restore ./backend/Inflationfeed.Api
+  dotnet clean ./backend/InflationFeed.Api
+  dotnet restore ./backend/InflationFeed.Api
 
   print_attempt "Building backend in Docker..."
   docker-compose up --build -d api --force-recreate
@@ -32,7 +32,7 @@ build_backend() {
 
 build_frontend() {
   print_attempt "Building frontend..."
-  docker-compose up -d  frontend --force-recreate
+  docker-compose up --build -d frontend --force-recreate
 }
 
 reset_database() {

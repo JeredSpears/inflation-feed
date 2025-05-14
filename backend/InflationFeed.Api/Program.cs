@@ -21,18 +21,6 @@ namespace InflationFeed.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var allowedOrigins = "AllowedOrigins";
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy(name: allowedOrigins,
-                    policy =>
-                    {
-                        policy.WithOrigins("http://localhost:5173")
-                              .AllowAnyHeader()
-                              .AllowAnyMethod();
-                    });
-            });
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
