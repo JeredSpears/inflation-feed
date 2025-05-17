@@ -8,6 +8,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=InflationDb;Username=postgres;Password=YourStrongPassword
     depends_on:
       database:
