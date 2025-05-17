@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
+
 namespace InflationFeed.Api.Data
 {
     public class AppDbContext : DbContext
@@ -23,7 +24,7 @@ namespace InflationFeed.Api.Data
             }
         }
 
-        public DbSet<Models.Price> Prices { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 
     
