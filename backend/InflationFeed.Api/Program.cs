@@ -1,6 +1,6 @@
 using InflationFeed.Api.Data;
+using InflationFeed.Api.Service;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace InflationFeed.Api
 {
