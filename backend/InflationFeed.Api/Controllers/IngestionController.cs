@@ -1,55 +1,40 @@
+using InflationFeed.Api.Service;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InflationFeed.Api.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class IngestionController : ControllerBase
+namespace InflationFeed.Api.Controllers
 {
-    private readonly ProductIngestionService _service;
-
-    public IngestionController(ProductIngestionService service)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class IngestionController(ProductIngestionService service) : ControllerBase
     {
-        _service = service;
-    }
+        private readonly ProductIngestionService _service = service;
 
-    [HttpPost]
-    [Route("json")]
-    public async Task<IActionResult> Upload([FromBody] ProductIngestionDto dto)
-    {
-        // todo: validation method? also authorization/authentication?
-        if (dto == null)
-            return BadRequest();
-
-        await _service.IngestAsync(dto);
-        return Ok();
-    }
-
-    // uhhhhhh
-    [HttpPost]
-    [Route("file")]
-    public async Task<IActionResult> UploadJsonFile([FromForm] IFormFile file)
-    {
-        if (file == null || file.Length == 0)
-            return BadRequest("No file uploaded.");
-
-        using var stream = new StreamReader(file.OpenReadStream());
-        var json = await stream.ReadToEndAsync();
-
-        ProductIngestionDto? dto;
-        try
+        [HttpPost]
+        [Route("file")]
+        public async Task<IActionResult> UploadJsonFile([FromForm] IFormFile file)
         {
-            dto = System.Text.Json.JsonSerializer.Deserialize<ProductIngestionDto>(json);
-        }
-        catch
-        {
-            return BadRequest("Invalid JSON format.");
-        }
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
 
-        if (dto == null)
-            return BadRequest("Could not parse JSON.");
+            using var stream = new StreamReader(file.OpenReadStream());
+            var json = await stream.ReadToEndAsync();
 
-        await _service.IngestAsync(dto);
-        return Ok();
+            try
+            {
+                var count = await _service.IngestAsync(json);
+                return Ok(new { Count = count });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "An error occurred while processing the file.");
+            }
+        }
     }
+
 }
+
